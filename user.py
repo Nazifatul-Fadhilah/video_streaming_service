@@ -1,4 +1,7 @@
 
+
+# from tabulate import tabulate
+
 class User:
   # Data user
   data_user = {
@@ -7,7 +10,7 @@ class User:
     3: ["Ana","Premium Plan", 5, "ana-2f9g"],
     4: ["Bagus","Basic Plan", 11, "bagus-9f92"]
   }
-  # data list_planS
+  # data list_plan
   list_plan = ["Basic Plan","Standar Plan","Premium Plan"]
   list_benefit = [[True, True, True, "Bisa Stream"],
                  [True, True, True, "Bisa Download"],
@@ -20,6 +23,13 @@ class User:
   headers = ["Basic Plan", "Standard Plan", "Premium Plan", "Services"]
 
   def __init__(self, username):
+    """
+    Fungsi ini digunakan untuk menginisiasi objek user
+
+    input: username (str)
+    
+    """
+
     self.username = username
     self.current_plan = None
     self.duration_plan = None
@@ -31,6 +41,19 @@ class User:
         self.duration_plan = value[2]
         self.kode_referal = value[3]
         break
+
+  def check_all_plan(self):
+    """
+      Fungsi ini digunakan untuk mencetak plan dan benefit
+
+      input: None
+    """
+    print("List Benefit and Plan from Pacflix")
+    print("")
+    # print(tabulate(self.list_benefit,self.header))
+    print(self.headers)
+    print(self.list_benefit)
+
 
        
   
