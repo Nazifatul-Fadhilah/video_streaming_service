@@ -11,7 +11,7 @@ class User:
     4: ["Bagus","Basic Plan", 11, "bagus-9f92"]
   }
   # data list_plan
-  list_plan = ["Basic Plan","Standar Plan","Premium Plan"]
+  list_plan = ["Basic Plan","Standard Plan","Premium Plan"]
   list_benefit = [[True, True, True, "Bisa Stream"],
                  [True, True, True, "Bisa Download"],
                  [True, True, True, "Kualitas SD"],
@@ -53,6 +53,63 @@ class User:
     # print(tabulate(self.list_benefit,self.header))
     print(self.headers)
     print(self.list_benefit)
+
+  def check_user_plan(self):
+    """
+    Fungsi untuk menampilkan plan dan benefit dari current plan user
+    """
+
+    if (self.current_plan):
+      print(f"{self.username} sedang berlangganan {self.current_plan}")
+      print("Benefit yang didapatkan")
+
+      idx_current_plan = self.list_plan.index(self.current_plan) #digunakan untuk menemukan posisi (indeks) dari nilai self.current_plan di dalam daftar self.list_plan.
+      headers_user = [self.headers[idx_current_plan],self.headers[-1]]
+      table_user = [[ row[idx_current_plan],row[-1]]
+                        for row in self.list_benefit]
+      # print(tabulate(table_user,headers_user))
+      print(headers_user,table_user)
+
+    else:
+      print("anda belum berlangganan")
+
+  def upgrade_plan(self,new_plan):
+    """
+    Fungsi untuk melakukan upgrade plan baru
+
+    input: new_plan (str)
+    """
+    if (self.current_plan is not None and new_plan in self.list_plan):
+      idx_current_plan = self.list_plan.index(self.current_plan)
+      idx_new_plan = self.list_plan.index(new_plan)
+      if (idx_new_plan > idx_current_plan):
+        #Do Upgrade
+        if(self.duration_plan > 12):
+          # mendapatkan diskon
+          total = self.list_benefit[-1][idx_new_plan] - 0.05 *self.list_benefit[-1][idx_new_plan]
+        else:
+          # harga tetap
+          total = self.list_benefit[-1][idx_new_plan]
+        print(f'Harga upgrade ke {new_plan} adalah Rp.{total:,}')
+
+        # Upgrade data user
+        self.current_plan = new_plan
+        for key,value in self.data_user.items():
+          if value[0] == self.username:
+            self.data_user[key][1] = new_plan # akses data lalu ubah value
+            break
+
+      elif (idx_new_plan == idx_current_plan):
+        print(f'Anda sedang berlangganan {new_plan}')
+      else:
+        print(f"Anda tidak bisa downgrade ke {new_plan}")
+
+    elif(new_plan not in self.list_plan):
+      print(f'New plan tidak tersedia')
+    
+    elif(self.current_plan is None):
+      print(f'Silahkan berlangganan terlebih dahulu')
+ 
 
 
        
